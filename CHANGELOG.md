@@ -4,6 +4,20 @@ All notable changes to this device tree are documented here.
 
 ## [v1] — 2026-06-20
 
+### Fix duplicate sysprop error (#5)
+
+**Problem:**
+- `ro.adb.secure=0` and `ro.secure=0` in system.prop duplicate build system defaults → build error
+
+**Fix:**
+- Removed `ro.adb.secure=0` and `ro.secure=0` from system.prop
+- `persist.sys.usb.config=mtp,adb` is sufficient for ADB by default
+
+**Files:**
+- `system.prop`
+
+---
+
 ### Enable USB debugging by default (#3)
 
 **Fix:**
