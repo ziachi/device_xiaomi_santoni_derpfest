@@ -2,6 +2,52 @@
 
 All notable changes to this device tree are documented here.
 
+## [v2] — 2026-06-20
+
+### Add Spectrum kernel profiles (#8)
+
+**Problem:**
+- No kernel performance profile switching from UI
+
+**Fix:**
+- Added Spectrum kernel profile system with QS tile (frameworks/base fork)
+- 4 profiles: Balance, Performance, Battery, Gaming
+- Tuning per profile: CPU governor/freq, GPU clock/governor, I/O scheduler, VM params, core control, LPM
+- All values tuned for MSM8937 (Snapdragon 435)
+
+**Files:**
+- `rootdir/init.spectrum.rc` — 4 kernel profile trigger blocks
+- `device.mk` — include init.spectrum.rc
+- `system.prop` — `persist.spectrum.kernel=1`, `persist.spectrum.profile=0`
+- `sepolicy/vendor/property_contexts` — `persist.spectrum.` property context
+- `sepolicy/vendor/platform_app.te` — QS tile property access
+- `frameworks/base` fork: `SpectrumTile.java`, icons, strings, Dagger binding
+
+**Impact:**
+- Users can switch kernel profiles from Quick Settings panel
+
+---
+
+### Fix bootloop - use AOSP power HAL (#7)
+
+**Problem:**
+- `system_server` hangs waiting for `android.hardware.power.IPower/default` AIDL service
+- QTI power HAL AIDL v3 incompatible with MSM8937 kernel 4.9
+- Watchdog kills system_server after 3+ min → zygote restart → bootloop
+
+**Fix:**
+- Replace `android.hardware.power-service-qti` with `android.hardware.power-service.example` (AOSP stub HAL)
+- Same concept proven on MSM8937 in other projects
+
+**Files:**
+- `device.mk`
+
+**Impact:**
+- Fixes bootloop, system boots to launcher
+
+---
+
+
 ## [v1] — 2026-06-20
 
 ### Fix duplicate sysprop error (#5)

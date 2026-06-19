@@ -9,6 +9,7 @@ Device tree for building [DerpFest](https://github.com/DerpFest-AOSP) Android 13
 | **Device Tree** | [ziachi/device_xiaomi_santoni_derpfest](https://github.com/ziachi/device_xiaomi_santoni_derpfest) | `derp-13-dev` |
 | **Kernel** | [ziachi/kernel_xiaomi_msm8937_derpfest](https://github.com/ziachi/kernel_xiaomi_msm8937_derpfest) | `derp-13-dev` |
 | **Vendor** | [ziachi/vendor_xiaomi_santoni_derpfest](https://github.com/ziachi/vendor_xiaomi_santoni_derpfest) | `derp-13-dev` |
+| **Frameworks Base** | [ziachi/frameworks_base_derpfest](https://github.com/ziachi/frameworks_base_derpfest/tree/derp-13-dev) | `derp-13-dev` |
 
 ## Build Notes
 
@@ -16,6 +17,7 @@ Device tree for building [DerpFest](https://github.com/DerpFest-AOSP) Android 13
 - Flash GApps (Pico/Nano/Full) separately via recovery after installing ROM
 - Uses AOSP clang `r450784d` for kernel compilation
 - SELinux: **Enforcing**
+- **Spectrum kernel profiles** — Balance, Performance, Battery, Gaming (QS tile)
 
 ## Spec Sheet
 
