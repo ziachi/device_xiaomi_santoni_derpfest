@@ -1,0 +1,204 @@
+# Spectrum Kernel Profile Manager
+# DerpFest 13 — Xiaomi Redmi 4X (santoni) MSM8937
+#
+# CPU Cluster 0 (big, cpu0-3): 960 MHz — 1497 MHz
+# CPU Cluster 1 (little, cpu4-7): 768 MHz — 1209 MHz
+# GPU (Adreno 505): 19.2 MHz — 450 MHz
+#
+# Profile 0: Balance (default)
+# Profile 1: Performance
+# Profile 2: Battery Saver
+# Profile 3: Gaming
+
+# Enable spectrum on boot
+on property:sys.boot_completed=1
+    setprop persist.spectrum.kernel 1
+
+# ============================================================
+# Profile 0: Balance — daily use
+# ============================================================
+on property:persist.spectrum.profile=0
+    # CPU Governor
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor interactive
+
+    # CPU Frequencies
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 960000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1401000
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 768000
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq 1094400
+
+    # Interactive tuning
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load 90
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq 1209600
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay "20000 1209600:50000"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate 30000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time 50000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load 90
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq 998400
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay 30000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate 30000
+
+    # Core control
+    write /sys/devices/system/cpu/cpu0/core_ctl/min_cpus 2
+    write /sys/devices/system/cpu/cpu0/core_ctl/max_cpus 4
+    write /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres 68
+    write /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres 40
+
+    # GPU
+    write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
+    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 400000000
+    write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 216000000
+
+    # I/O Scheduler
+    write /sys/block/mmcblk0/queue/scheduler bfq
+    write /sys/block/mmcblk0/queue/read_ahead_kb 128
+
+    # VM tuning
+    write /proc/sys/vm/swappiness 80
+    write /proc/sys/vm/dirty_ratio 20
+    write /proc/sys/vm/dirty_background_ratio 5
+    write /proc/sys/vm/vfs_cache_pressure 100
+    write /proc/sys/vm/extra_free_kbytes 24300
+
+    # LPM
+    write /sys/module/lpm_levels/parameters/sleep_disabled 0
+
+# ============================================================
+# Profile 1: Performance — snappy UI, max responsiveness
+# ============================================================
+on property:persist.spectrum.profile=1
+    # CPU Governor
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor interactive
+
+    # CPU Frequencies — higher floor
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 1094400
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1497600
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 902400
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq 1209600
+
+    # Interactive tuning — aggressive
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load 75
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq 1401000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay 20000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate 20000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time 40000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load 75
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq 1094400
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay 20000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate 20000
+
+    # Core control — all cores on
+    write /sys/devices/system/cpu/cpu0/core_ctl/min_cpus 4
+    write /sys/devices/system/cpu/cpu0/core_ctl/max_cpus 4
+    write /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres 60
+    write /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres 30
+
+    # GPU — higher floor
+    write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
+    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 450000000
+    write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 270000000
+
+    # I/O Scheduler
+    write /sys/block/mmcblk0/queue/scheduler bfq
+    write /sys/block/mmcblk0/queue/read_ahead_kb 256
+
+    # VM tuning — responsive
+    write /proc/sys/vm/swappiness 60
+    write /proc/sys/vm/dirty_ratio 30
+    write /proc/sys/vm/dirty_background_ratio 10
+    write /proc/sys/vm/vfs_cache_pressure 80
+    write /proc/sys/vm/extra_free_kbytes 24300
+
+    # LPM — disable deep sleep
+    write /sys/module/lpm_levels/parameters/sleep_disabled 1
+
+# ============================================================
+# Profile 2: Battery Saver — maximum battery life
+# ============================================================
+on property:persist.spectrum.profile=2
+    # CPU Governor
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor interactive
+
+    # CPU Frequencies — conservative limits
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 960000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1209600
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 768000
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq 998400
+
+    # Interactive tuning — conservative
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/go_hispeed_load 95
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq 1094400
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/above_hispeed_delay "30000 1094400:60000"
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/timer_rate 50000
+    write /sys/devices/system/cpu/cpu0/cpufreq/interactive/min_sample_time 60000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/go_hispeed_load 95
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/hispeed_freq 768000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/above_hispeed_delay 50000
+    write /sys/devices/system/cpu/cpu4/cpufreq/interactive/timer_rate 50000
+
+    # Core control — allow more cores offline
+    write /sys/devices/system/cpu/cpu0/core_ctl/min_cpus 1
+    write /sys/devices/system/cpu/cpu0/core_ctl/max_cpus 4
+    write /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres 80
+    write /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres 50
+
+    # GPU — low power
+    write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
+    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 400000000
+    write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 160000000
+
+    # I/O Scheduler
+    write /sys/block/mmcblk0/queue/scheduler noop
+    write /sys/block/mmcblk0/queue/read_ahead_kb 64
+
+    # VM tuning — aggressive swapping, save RAM
+    write /proc/sys/vm/swappiness 100
+    write /proc/sys/vm/dirty_ratio 10
+    write /proc/sys/vm/dirty_background_ratio 3
+    write /proc/sys/vm/vfs_cache_pressure 150
+    write /proc/sys/vm/extra_free_kbytes 24300
+
+    # LPM — enable deep sleep
+    write /sys/module/lpm_levels/parameters/sleep_disabled 0
+
+# ============================================================
+# Profile 3: Gaming — max GPU + CPU, lowest latency
+# ============================================================
+on property:persist.spectrum.profile=3
+    # CPU Governor
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor performance
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor performance
+
+    # CPU Frequencies — max everything
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 1209600
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1497600
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 960000
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq 1209600
+
+    # Core control — all cores locked on
+    write /sys/devices/system/cpu/cpu0/core_ctl/min_cpus 4
+    write /sys/devices/system/cpu/cpu0/core_ctl/max_cpus 4
+    write /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres 50
+    write /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres 20
+
+    # GPU — max clock
+    write /sys/class/kgsl/kgsl-3d0/devfreq/governor performance
+    write /sys/class/kgsl/kgsl-3d0/max_gpuclk 450000000
+    write /sys/class/kgsl/kgsl-3d0/devfreq/min_freq 400000000
+
+    # I/O Scheduler — deadline for low latency
+    write /sys/block/mmcblk0/queue/scheduler deadline
+    write /sys/block/mmcblk0/queue/read_ahead_kb 512
+
+    # VM tuning — minimal swap, keep in RAM
+    write /proc/sys/vm/swappiness 20
+    write /proc/sys/vm/dirty_ratio 40
+    write /proc/sys/vm/dirty_background_ratio 15
+    write /proc/sys/vm/vfs_cache_pressure 50
+    write /proc/sys/vm/extra_free_kbytes 24300
+
+    # LPM — disable deep sleep for responsiveness
+    write /sys/module/lpm_levels/parameters/sleep_disabled 1

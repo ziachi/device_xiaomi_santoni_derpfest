@@ -425,7 +425,8 @@ PRODUCT_PACKAGES += \
     init.recovery.qcom.rc \
     init.target.rc \
     ueventd.qcom.rc \
-    init.extras.rc
+    init.extras.rc \
+    init.spectrum.rc
 
 PRODUCT_PACKAGES += \
     init.baseband.sh \

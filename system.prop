@@ -175,3 +175,7 @@ zygote.critical_window.minute=10
 
 # USB Debugging
 persist.sys.usb.config=mtp,adb
+
+# Spectrum Kernel Profiles
+persist.spectrum.kernel=1
+persist.spectrum.profile=0
