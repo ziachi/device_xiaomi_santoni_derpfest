@@ -22,27 +22,19 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_n_mr1.mk
 # Inherit from santoni device
 $(call inherit-product, device/xiaomi/santoni/device.mk)
 
-# Inherit some common RisingOS stuff.
-$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+# Inherit some common DerpFest stuff.
+$(call inherit-product, vendor/derp/config/common_full_phone.mk)
 
-#RisingOS Flags
-
-RISING_CHIPSET := MSM8937
-RISING_MAINTAINER := OmanshKrishn
-# RISING_PACKAGE_TYPE := VANILLA-AOSP-OmanshKrishn
+# DerpFest flags
+DERP_BUILDTYPE := Unofficial
 TARGET_BUILD_APERTURE_CAMERA := true
 TARGET_ENABLE_BLUR := false
 TARGET_FACE_UNLOCK_SUPPORTED := true
-TARGET_SUPPORTS_QUICK_TAP := true
-# WITH_GMS := true
-# TARGET_USE_GOOGLE_TELEPHONY := true
-# TARGET_PREBUILT_GCAM
-# TARGET_PREBUILT_PIXEL_LAUNCHER := true
 
 PRODUCT_DEVICE := santoni
 PRODUCT_BRAND := Xiaomi
 PRODUCT_MODEL := Redmi 4X
-PRODUCT_NAME := lineage_santoni
+PRODUCT_NAME := derp_santoni
 BOARD_VENDOR := Xiaomi
 PRODUCT_MANUFACTURER := Xiaomi
 
@@ -51,7 +43,7 @@ DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay-lineage
 
 # Boot animation
 TARGET_BOOT_ANIMATION_RES := 720
-	
+
 PRODUCT_GMS_CLIENTID_BASE := android-xiaomi
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
