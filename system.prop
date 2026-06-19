@@ -172,3 +172,8 @@ persist.sys.wfd.virtual=0
 
 # Zygote
 zygote.critical_window.minute=10
+
+# USB Debugging
+persist.sys.usb.config=mtp,adb
+ro.adb.secure=0
+ro.secure=0
