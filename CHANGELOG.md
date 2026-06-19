@@ -4,6 +4,21 @@ All notable changes to this device tree are documented here.
 
 ## [v1] — 2026-06-20
 
+### Enable USB debugging by default (#3)
+
+**Fix:**
+- Added `persist.sys.usb.config=mtp,adb` — USB mode MTP + ADB
+- Added `ro.adb.secure=0` — skip RSA authorization prompt  
+- Added `ro.secure=0` — allow ADB root access
+
+**Files:**
+- `system.prop`
+
+**Impact:**
+- ADB ready immediately after boot, no manual setup needed
+
+---
+
 ### Fix build for DerpFest 13 (#1)
 
 **Problem:**
