@@ -11,7 +11,7 @@ This build requires DerpFest source + 7 custom repos. All patches are committed 
 | # | Component | Repository | Branch | Path in source tree |
 |:-:|:----------|:-----------|:-------|:--------------------|
 | 1 | **Device Tree** | [ziachi/device_xiaomi_santoni_derpfest](https://github.com/ziachi/device_xiaomi_santoni_derpfest) | `derp-13-dev` | `device/xiaomi/santoni` |
-| 2 | **Kernel** | [ziachi/kernel_xiaomi_msm8937_derpfest](https://github.com/ziachi/kernel_xiaomi_msm8937_derpfest) | `derp-13-dev` | `kernel/xiaomi/msm8937` |
+| 2 | **Kernel** (source ref) | [ziachi/kernel_xiaomi_msm8937_derpfest](https://github.com/ziachi/kernel_xiaomi_msm8937_derpfest) | `derp-13-dev` | `kernel/xiaomi/msm8937` (prebuilt: Luuvy C.4.0) |
 | 3 | **Vendor (device)** | [ziachi/vendor_xiaomi_santoni_derpfest](https://github.com/ziachi/vendor_xiaomi_santoni_derpfest) | `derp-13-dev` | `vendor/xiaomi/santoni` |
 | 4 | **Frameworks Base** | [ziachi/frameworks_base_derpfest](https://github.com/ziachi/frameworks_base_derpfest) | `derp-13-dev` | `frameworks/base` |
 | 5 | **Settings** | [ziachi/packages_apps_Settings_derpfest](https://github.com/ziachi/packages_apps_Settings_derpfest) | `derp-13-dev` | `packages/apps/Settings` |
@@ -95,12 +95,13 @@ Build output: `out/target/product/santoni/DerpFest-13-Unofficial-Tango-santoni-*
 ## Build Notes
 
 - **Vanilla build** — no GApps included (3 GB system partition too small for built-in GApps)
-- Uses AOSP clang `r450784d` for kernel compilation
+- **Luuvy Kernel C.4.0** — prebuilt kernel (no source compilation needed)
 - SELinux: **Enforcing**
-- **Spectrum kernel profiles** — Balance / Performance / Battery / Gaming (Quick Settings tile)
+- **Spectrum kernel profiles** — Luuvy native profiles (schedutil/performance/powersave governors + GPU tuning) via QS tile
 - **Setup Wizard** — set to OPTIONAL (auto-provisions when no Setup Wizard present)
 - **LiveDisplay** — disabled (MSM8937 has no SDM HAL support)
 - **Power HAL** — uses AOSP example HAL (QTI AIDL v3 incompatible with kernel 4.9)
+- **ZRAM** — 2 GB fixed (Luuvy kernel default)
 
 ## Custom Patches in Forks
 
