@@ -2,38 +2,6 @@
 
 All notable changes to this device tree are documented here.
 
-## [v4] — 2026-06-20
-
-### Integrate Luuvy C.4.0 prebuilt kernel (#14)
-
-**Problem:**
-- Source-compiled kernel (msm8937 4.9) lacks Luuvy-specific optimizations
-- Old Spectrum profiles used interactive governor (not optimal for Luuvy kernel)
-
-**Fix:**
-- Switch to Luuvy C.4.0 EOL prebuilt `Image.gz-dtb`
-- Replace Spectrum profiles with Luuvy native profiles:
-  - Balance: schedutil + GPU msm-adreno-tz
-  - Performance: performance governor + GPU performance
-  - Battery: powersave + GPU powersave
-  - Gaming: performance + GPU msm-adreno-tz (higher GPU floor)
-- Property chain: `persist.spectrum.profile` → `persist.luuvy.profile` → tuning
-- FKU (Franco Kernel Manager) bridge supported
-- ZRAM: 2 GB fixed (was fstab 50%)
-- SELinux: init sysfs writes (gpu, cpu freq, zram, workqueue)
-
-**Files:**
-- BoardConfig.mk, device.mk, prebuilt/Image.gz-dtb
-- rootdir/init.spectrum.rc, rootdir/init.spectrum.sh
-- sepolicy/vendor/init.te, sepolicy/vendor/property_contexts
-
-**Impact:**
-- Better kernel performance with Luuvy-optimized tuning per profile
-- QS tile continues to work via property bridge
-
----
-
-
 ## [v3] — 2026-06-20
 
 ### Fix blank screen after bootanimation (#10)
