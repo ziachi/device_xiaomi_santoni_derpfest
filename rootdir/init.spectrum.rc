@@ -13,7 +13,7 @@
 # Initialization
 # ============================================================
 on property:sys.boot_completed=1
-    setprop persist.spectrum.profile 0
+    exec u:r:init:s0 -- /system/bin/sh /vendor/etc/init/init.spectrum.sh
 
 # ============================================================
 # ZRAM Setup (2 GB fixed)

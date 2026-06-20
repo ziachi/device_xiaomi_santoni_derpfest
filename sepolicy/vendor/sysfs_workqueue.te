@@ -1,2 +1,0 @@
-# Workqueue power-efficient sysfs parameter
-type sysfs_workqueue, sysfs_type, fs_type;
