@@ -34,6 +34,31 @@ All notable changes to this device tree are documented here.
 ---
 
 
+### Fix prebuilt kernel build (#16)
+
+**Problem:**
+- 3 build errors when using prebuilt kernel:
+  1. `generated_kernel_includes` needs `TARGET_KERNEL_SOURCE` for kernel headers
+  2. `kernel.mk` enforces `TARGET_KERNEL_CONFIG` even with prebuilt
+  3. SEPolicy neverallow: init cannot write generic `sysfs` or `execute_no_trans`
+
+**Fix:**
+- `TARGET_FORCE_PREBUILT_KERNEL := true` (skip source compile, use prebuilt)
+- Created `sysfs_workqueue` SELinux type + genfscon label
+- Removed `init.spectrum.sh` (set default profile via setprop in .rc)
+- Removed `vendor_shell_exec` `execute_no_trans` rule
+
+**Files:**
+- BoardConfig.mk, device.mk, rootdir/init.spectrum.rc
+- rootdir/init.spectrum.sh (deleted)
+- sepolicy/vendor/init.te, sysfs_workqueue.te, genfs_contexts
+
+**Impact:**
+- Build compiles successfully with prebuilt Luuvy kernel
+
+---
+
+
 ## [v3] — 2026-06-20
 
 ### Fix blank screen after bootanimation (#10)
