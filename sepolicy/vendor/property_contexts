@@ -36,10 +36,3 @@ wifi.active.interface           u:object_r:wifi_prop:s0
 
 # Spectrum kernel profiles
 persist.spectrum.       u:object_r:system_prop:s0
-
-# Luuvy kernel profiles
-persist.luuvy.       u:object_r:system_prop:s0
-
-# Franco Kernel Manager
-fku.                 u:object_r:system_prop:s0
-spectrum.            u:object_r:system_prop:s0
