@@ -424,7 +424,8 @@ PRODUCT_PACKAGES += \
     init.target.rc \
     ueventd.qcom.rc \
     init.extras.rc \
-    init.spectrum.rc
+    init.spectrum.rc \
+    init.spectrum.sh
 
 PRODUCT_PACKAGES += \
     init.baseband.sh \
