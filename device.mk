@@ -334,9 +334,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.lights-service.santoni
 
-# LiveDisplay
-PRODUCT_PACKAGES += \
-    vendor.lineage.livedisplay@2.0-service-sdm
+# LiveDisplay (disabled - no HAL on MSM8937)
 
 # LMKD
 TARGET_LMKD_STATS_LOG := true
