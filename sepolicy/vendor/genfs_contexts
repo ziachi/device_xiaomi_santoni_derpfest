@@ -30,3 +30,6 @@ genfscon proc /touchpanel	u:object_r:proc_touchpanel:s0
 
 # PowerHal
 genfscon sysfs /bus/msm_subsys                                       u:object_r:sysfs_msm_subsys:s0
+
+# Workqueue
+genfscon sysfs /module/workqueue/parameters u:object_r:sysfs_workqueue:s0

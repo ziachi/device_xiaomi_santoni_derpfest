@@ -65,7 +65,7 @@ allow init hal_audio_default:binder call;
 
 # Luuvy kernel Spectrum profiles
 # /sys/module/workqueue/parameters/power_efficient
-allow init sysfs:file { open read write };
+allow init sysfs_workqueue:file { open read write };
 # /sys/kernel/gpu/* (gpu_min_clock, gpu_max_clock)
 allow init sysfs_gpu:file { open read write };
 # chmod on cpu freq scaling files
@@ -74,5 +74,3 @@ allow init sysfs_devices_system_cpu:file { open read setattr };
 allow init sysfs_kgsl:file setattr;
 # ZRAM reset/disksize
 allow init sysfs_zram:file { open read write };
-# exec init.spectrum.sh
-allow init vendor_shell_exec:file { read open execute execute_no_trans };
