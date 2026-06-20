@@ -18,6 +18,8 @@ Device tree for building [DerpFest](https://github.com/DerpFest-AOSP) Android 13
 - Uses AOSP clang `r450784d` for kernel compilation
 - SELinux: **Enforcing**
 - **Spectrum kernel profiles** — Balance, Performance, Battery, Gaming (QS tile)
+- **Setup Wizard** — set to OPTIONAL (auto-provisions when no Setup Wizard present)
+- **LiveDisplay** — disabled (MSM8937 has no SDM HAL support)
 
 ## Spec Sheet
 

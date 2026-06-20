@@ -2,6 +2,67 @@
 
 All notable changes to this device tree are documented here.
 
+## [v3] — 2026-06-20
+
+### Fix blank screen after bootanimation (#10)
+
+**Problem:**
+- After bootanimation, device stuck on blank screen (FallbackHome)
+- Settings.Global.DEVICE_PROVISIONED never set to 1
+- NikGapps Core (Play Store + Play Services only) has no Setup Wizard
+- AOSP Provision app exists but FallbackHome intercepts HOME intent first
+
+**Fix:**
+- Set ro.setupwizard.mode=OPTIONAL in system.prop
+- System auto-provisions when no Setup Wizard found
+
+**Files:**
+- system.prop
+
+**Impact:**
+- Device boots to homescreen instead of blank screen (with or without GApps)
+
+---
+
+### Disable LiveDisplay HAL (#11)
+
+**Problem:**
+- vendor.lineage.livedisplay@2.0::IDisplayModes/default not registered
+- hwservicemanager polls every 1 second infinitely (491+ times in logcat)
+- MSM8937 does not have SDM LiveDisplay HAL support
+
+**Fix:**
+- Remove LiveDisplay HAL block from manifest.xml
+- Remove vendor.lineage.livedisplay@2.0-service-sdm from device.mk
+
+**Files:**
+- configs/manifests/manifest.xml
+- device.mk
+
+**Impact:**
+- Eliminates infinite HAL polling, reduces CPU waste and log spam
+
+---
+
+### Fix SystemUI Reticker crash (frameworks/base)
+
+**Problem:**
+- RetickerAnimations.revealAnimationHide() calls createCircularReveal() on detached view
+- IllegalStateException: Cannot start this animator on a detached view!
+- SystemUI crashes once on boot then auto-restarts
+
+**Fix:**
+- Add isAttachedToWindow() guard before createCircularReveal()
+- Skip animation and set visibility directly when view is detached
+
+**Files:**
+- frameworks/base/packages/SystemUI/src/com/android/systemui/RetickerAnimations.java
+
+**Impact:**
+- Prevents SystemUI crash during notification ticker animation
+
+---
+
 ## [v2] — 2026-06-20
 
 ### Add Spectrum kernel profiles (#8)
